@@ -1,22 +1,41 @@
 #!/usr/bin/python3
 import sys
+import random
 
 
-def findFac(num):
-	num = int(num)
-	factor = 2
-	while num % factor:
-		if factor <= num:
-			factor += 1
-	return ((num // factor), factor)
+def pollard_rho(n):
+    if n % 2 == 0:
+        return 2
 
+    x = random.randrange(2, n)
+    y = x
+    d = 1
+
+    while d == 1:
+        x = (x * x + 1) % n
+        y = (y * y + 1) % n
+        y = (y * y + 1) % n
+        d = gcd(abs(x - y), n)
+
+    if d == n:
+        return None
+    else:
+        return d
+
+def gcd(a, b):
+    while b != 0:
+        a, b = b, a % b
+    return a
 
 if len(sys.argv) != 2:
-	sys.exit("Usage: {0}: <filename>".format(sys.argv[0]))
+    sys.exit(f"Wrong usage: {sys.argv[0]} <file_path>")
 
-factors = 0
 filename = sys.argv[1]
-with open(filename, "r") as fp:
-	for i in fp:
-		factors = findFac(i)
-		print(f"{int(i)}={factors[0]}*{factors[1]}")
+
+file = open(filename, 'r')
+lines = file.readlines()
+
+for line in lines:
+    num = int(line.rstrip())
+    factor = pollard_rho(num)
+    print(f"{num}={num//factor}*{factor}")
