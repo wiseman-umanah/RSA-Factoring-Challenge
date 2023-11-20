@@ -18,7 +18,7 @@ def pollard_rho(n):
         d = gcd(abs(x - y), n)
 
     if d == n:
-        return None
+        return n
     else:
         return d
 
@@ -28,7 +28,7 @@ def gcd(a, b):
     return a
 
 if len(sys.argv) != 2:
-    sys.exit(f"Wrong usage: {sys.argv[0]} <file_path>")
+    sys.exit(f"Usage: {sys.argv[0]} <file_path>")
 
 filename = sys.argv[1]
 
